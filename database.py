@@ -14,3 +14,14 @@ class DatabaseManager:
             cursor.execute(statement, values or None)
             return cursor
 
+    def crete_table(self, table_name: str, columns: dict) -> None:
+        columns_with_types = [
+            f"{column_name} {column_type}"
+            for column_name, column_type in columns.items()
+        ]
+        self._execute(
+            f'''
+            CREATE TABLE IF NOT EXIST {table_name}
+            ({', '.join(columns_with_types)});
+            '''
+        )
