@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Union
 
 
 class DatabaseManager:
@@ -8,7 +9,7 @@ class DatabaseManager:
     def __del__(self):
         self.connection.close()
 
-    def _execute(self, statement: str, values: list = None):
+    def _execute(self, statement: str, values: Union[list, tuple] = None):
         with self.connection:  # создает контекст транзакции БД
             cursor = self.connection.cursor()
             cursor.execute(statement, values or None)
@@ -24,4 +25,17 @@ class DatabaseManager:
             CREATE TABLE IF NOT EXIST {table_name}
             ({', '.join(columns_with_types)});
             '''
+        )
+
+    def add(self, table_nme: str, data: dict) -> None:
+        placeholders = ', '.join('?' * len(data))
+        column_names = ', '.join(data.keys())
+        column_values = tuple(data.values())
+        self._execute(
+            f'''
+            INSERT INTO {table_nme}
+            ({column_names})
+            VALUES ({placeholders});
+            ''',
+            column_values
         )
