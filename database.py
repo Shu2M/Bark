@@ -15,7 +15,7 @@ class DatabaseManager:
             cursor.execute(statement, values or None)
             return cursor
 
-    def crete_table(self, table_name: str, columns: dict) -> None:
+    def create_table(self, table_name: str, columns: dict) -> None:
         columns_with_types = [
             f"{column_name} {column_type}"
             for column_name, column_type in columns.items()
@@ -51,7 +51,7 @@ class DatabaseManager:
             tuple(criteria.values())
         )
 
-    def select(self, table_name: str, criteria: dict = None, order_by=None) -> None:
+    def select(self, table_name: str, criteria: dict = None, order_by=None):
         criteria = criteria or {}
         query = f'SELECT * FROM {table_name}'
 
