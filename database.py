@@ -63,7 +63,7 @@ class DatabaseManager:
         if order_by:
             query += f' ORDER BY {order_by}'
 
-        self._execute(
+        return self._execute(
             query,
             tuple(criteria.values())
         )
