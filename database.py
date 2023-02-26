@@ -12,7 +12,7 @@ class DatabaseManager:
     def _execute(self, statement: str, values: Union[list, tuple] = None):
         with self.connection:  # создает контекст транзакции БД
             cursor = self.connection.cursor()
-            cursor.execute(statement, values or None)
+            cursor.execute(statement, values or [])
             return cursor
 
     def create_table(self, table_name: str, columns: dict) -> None:
@@ -22,7 +22,7 @@ class DatabaseManager:
         ]
         self._execute(
             f'''
-            CREATE TABLE IF NOT EXIST {table_name}
+            CREATE TABLE IF NOT EXISTS {table_name}
             ({', '.join(columns_with_types)});
             '''
         )
